@@ -10,7 +10,66 @@ var Hook = [];
 config.discord.webhookURL.forEach(function(webhk){
   Hook.push(new Discord.WebhookClient(webhk.id, webhk.token))
 });
-ci.setCorrectingInterval(function() {  
+
+const https = require('https');
+
+config.instagramAccounts.forEach(function (user){
+
+	url0 ='https://graph.instagram.com/'+user.userId+'/media?access_token='+user.access_token+"/";
+
+	https.get(url0,(res) => {
+
+
+		res.on("data",(data) =>{
+
+
+			var str = data.toString();
+
+			var d = str.substring(str.indexOf("id"),str.indexOf('"}],"paging"'));
+			var arr = getIds(d);
+			var i = 0;
+			arr.forEach((id)=> {
+
+				photoInfoUrl = "https://graph.instagram.com/"+id.toString()+"?fields=id,media_type,media_url,username,timestamp&access_token="+user.access_token;
+				https.get(photoInfoUrl,(resp)=>{
+					resp.on("data", (info)=>{
+						//console.log(info.toString());
+						console.log("..............................................................")
+						var j = JSON.parse(info.toString());
+						console.log(j);
+					});
+
+				}).on("error", (e) => {
+					console.error(e);
+				});
+
+				i++;
+			});
+
+
+		});
+	}).on('error', (e) => {
+		console.error(e);
+	});
+
+});
+function getIds(data){
+	var str =data.toString();
+	var arr = [];
+	var i = 0
+	while(str.length!=0){
+		str = str.substring(str.indexOf(":")+2 , str.length);
+		arr[i] = str.substring(0, 17);
+		i++;
+		if(str.indexOf(":")==-1){
+			break;
+		}
+	}
+	return arr;
+}
+
+
+ci.setCorrectingInterval(function() {
   	ids.forEach(function(user){
   		var id = user.replace(/\r?\n|\r/g, "");
   		Axios.get('https://www.instagram.com/'+id+'/').then(data => {

@@ -7,14 +7,15 @@
     "axios": "^0.19.2",
     "basic-instagram-user-details": "^1.0.2",
     "cheerio": "^1.0.0-rc.3",
+    "correcting-interval": "^2.0.0",
+    "data-store": "^4.0.3",
+    "discord-webhook-node": "^1.1.8",
     "discord.js": "^11.6.4",
     "moment": "^2.26.0",
     "node-instagram-data-scraper": "^1.0.3",
     "simple-array-diff": "^1.1.0",
     "then-request": "^6.0.2",
-    "webhook-discord": "^3.7.3",
-    "data-store": "^4.0.3",
-    "correcting-interval": "^2.0.0"
+    "webhook-discord": "^3.7.3"
   },
   "devDependencies": {},
   "scripts": {
